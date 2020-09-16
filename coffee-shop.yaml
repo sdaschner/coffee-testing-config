@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: sdaschner/coffee-shop:quarkus-testing-1
+        image: sdaschner/coffee-shop:quarkus-testing-2
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
