@@ -1,0 +1,49 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-deploy
+spec:
+  params:
+  - name: buildRevision
+    description: The revision of the build
+  resources:
+  - name: appSource
+    type: git
+  - name: appImage
+    type: image
+  - name: gitOpsSource
+    type: git
+  workspaces:
+  - name: maven-cache
+  tasks:
+  - name: build-java-app
+    taskRef:
+      name: build-java-app
+    resources:
+      inputs:
+      - name: source
+        resource: appSource
+      outputs:
+      - name: builtImage
+        resource: appImage
+    params:
+    - name: buildRevision
+      value: $(params.buildRevision)
+    workspaces:
+    - name: maven-cache
+      workspace: maven-cache
+  - name: deploy
+    taskRef:
+      name: deploy
+    runAfter:
+    - build-java-app
+    resources:
+      inputs:
+      - name: source
+        resource: gitOpsSource
+      - name: image
+        resource: appImage
+    params:
+    - name: buildRevision
+      value: $(params.buildRevision)
+---

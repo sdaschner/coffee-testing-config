@@ -1,0 +1,65 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: build-java-app
+spec:
+  inputs:
+    resources:
+    - name: source
+      type: git
+    params:
+    - name: buildRevision
+    - name: destinationImage
+      description: Parameter Description
+      default: "$(outputs.resources.builtImage.url)"
+  outputs:
+    resources:
+    - name: builtImage
+      type: image
+  workspaces:
+  - name: maven-cache
+  stepTemplate:
+    resources:
+      requests:
+        cpu: 1
+        memory: 2Gi
+  steps:
+  - name: build-sources
+    image: gcr.io/cloud-builders/mvn
+    workingDir: "/workspace/source/coffee-shop/"
+    command:
+    - /usr/bin/mvn
+    args:
+    - -Dmaven.repo.local=$(workspaces.maven-cache.path)
+    - clean
+    - package
+  - name: ls-build-target
+    image: fedora
+    command: ['ls', '-ahl', '/workspace/source/coffee-shop/target']
+  - name: build-image
+    image: quay.io/buildah/stable
+    workingDir: "/workspace/source/coffee-shop/"
+    command: ['buildah', 'bud', '--tls-verify=false', '--layers', '-f', 'Dockerfile', '-t', '$(inputs.params.destinationImage):$(inputs.params.buildRevision)', '.']
+    volumeMounts:
+    - name: varlibc
+      mountPath: /var/lib/containers
+    # container image build needs to run as root
+    securityContext:
+      allowPrivilegeEscalation: true
+      runAsUser: 0
+      privileged: true
+  - name: build-push
+    image: quay.io/buildah/stable
+    command: ["buildah", "push", "--tls-verify=false", "$(inputs.params.destinationImage):$(inputs.params.buildRevision)", "docker://$(inputs.params.destinationImage):$(inputs.params.buildRevision)"]
+    volumeMounts:
+    - name: varlibc
+      mountPath: /var/lib/containers
+    # container image build needs to run as root
+    securityContext:
+      allowPrivilegeEscalation: true
+      runAsUser: 0
+      privileged: true
+  volumes:
+  - name: varlibc
+    emptyDir: {}
+---
