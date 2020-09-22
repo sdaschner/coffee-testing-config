@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: docker.sebastian-daschner.com/coffee-testing:1
+        image: docker.sebastian-daschner.com/coffee-testing:124
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
