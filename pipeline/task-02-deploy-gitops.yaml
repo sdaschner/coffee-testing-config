@@ -3,19 +3,19 @@ kind: Task
 metadata:
   name: deploy
 spec:
-  inputs:
-    params:
-    - name: buildRevision
-    resources:
+  params:
+  - name: buildRevision
+  resources:
+    inputs:
     - name: image
       type: image
     - name: source
-      type: git      
+      type: git
   steps:
   - name: update-yaml
     image: alpine/git:v2.26.2
-#    image: mikefarah/yq:3.3.4
-#    command: ['yq', 'write', '-i', 'coffee-shop.yaml', '-d', '1', 'spec.template.spec.containers[0].image', "$(inputs.resources.image.url):$(inputs.params.buildRevision)"]
+    #    image: mikefarah/yq:3.3.4
+    #    command: ['yq', 'write', '-i', 'coffee-shop.yaml', '-d', '1', 'spec.template.spec.containers[0].image', "$(inputs.resources.image.url):$(inputs.params.buildRevision)"]
     workingDir: "/workspace/source/production/"
     script: |
       #!/usr/bin/env sh

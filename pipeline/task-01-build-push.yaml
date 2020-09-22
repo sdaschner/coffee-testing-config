@@ -3,17 +3,16 @@ kind: Task
 metadata:
   name: build-java-app
 spec:
-  inputs:
-    resources:
+  params:
+  - name: buildRevision
+  - name: destinationImage
+    description: Parameter Description
+    default: "$(outputs.resources.builtImage.url)"
+  resources:
+    inputs:
     - name: source
       type: git
-    params:
-    - name: buildRevision
-    - name: destinationImage
-      description: Parameter Description
-      default: "$(outputs.resources.builtImage.url)"
-  outputs:
-    resources:
+    outputs:
     - name: builtImage
       type: image
   workspaces:
