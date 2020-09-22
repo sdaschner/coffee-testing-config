@@ -33,6 +33,8 @@ spec:
           httpGet:
             path: /
             port: 8080
+      imagePullSecrets:
+      - name: regsecret
       restartPolicy: Always
 ---
 
