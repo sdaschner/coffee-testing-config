@@ -20,8 +20,8 @@ spec:
   stepTemplate:
     resources:
       requests:
-        cpu: 1
-        memory: 2Gi
+        cpu: '1'
+        memory: '2Gi'
   steps:
   - name: build-sources
     image: gcr.io/cloud-builders/mvn
