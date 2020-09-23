@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: coffee-testing-prod
+  name: coffee-testing-systemtest
   namespace: argocd
 spec:
   destination:
-    namespace: production
+    namespace: systemtest
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: production
+    path: systemtest
     repoURL: https://github.com/sdaschner/argocd-testing.git
     targetRevision: HEAD
   syncPolicy:
