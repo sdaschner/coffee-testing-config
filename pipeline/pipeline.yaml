@@ -32,9 +32,9 @@ spec:
     workspaces:
     - name: maven-cache
       workspace: maven-cache
-  - name: deploy
+  - name: deploy-systemtest
     taskRef:
-      name: deploy
+      name: deploy-systemtest
     runAfter:
     - build-java-app
     resources:
