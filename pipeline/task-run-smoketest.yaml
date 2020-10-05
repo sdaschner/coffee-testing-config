@@ -12,7 +12,7 @@ spec:
   steps:
   - name: run-mvn-st
     image: gcr.io/cloud-builders/mvn
-    workingDir: "/workspace/source/coffee-shop/coffee-shop"
+    workingDir: "/workspace/source/coffee-shop"
     command:
     - /usr/bin/mvn
     args:
