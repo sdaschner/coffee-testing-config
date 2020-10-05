@@ -46,7 +46,7 @@ spec:
       git push origin $(inputs.resources.source.revision)
 
   - name: wait-for-argocd-rollout
-    image: argoproj/argocd:1.7.0
+    image: argoproj/argocd:v1.7.7
     script: |
       #!/usr/bin/env sh
       set -e
