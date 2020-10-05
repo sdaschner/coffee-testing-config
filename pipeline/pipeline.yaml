@@ -46,4 +46,8 @@ spec:
     params:
     - name: buildRevision
       value: $(params.buildRevision)
+    - name: environment
+      value: systemtest
+    - name: argo-app-name
+      value: coffee-testing-systemtest
 ---

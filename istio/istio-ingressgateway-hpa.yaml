@@ -1,0 +1,18 @@
+# only for testing purposes
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: istio-ingressgateway-alt
+    istio: ingressgateway-alt
+  name: istio-ingressgateway-alt
+  namespace: istio-system
+spec:
+  maxReplicas: 5
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: istio-ingressgateway-alt
+  targetCPUUtilizationPercentage: 80
