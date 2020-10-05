@@ -9,6 +9,8 @@ spec:
     inputs:
     - name: source
       type: git
+  workspaces:
+  - name: maven-cache
   steps:
   - name: run-mvn-st
     image: gcr.io/cloud-builders/mvn

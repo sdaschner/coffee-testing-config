@@ -52,6 +52,7 @@ spec:
       value: systemtest
     - name: argo-app-name
       value: coffee-testing-systemtest
+
   - name: run-systemtest
     taskRef:
       name: run-systemtest
@@ -64,6 +65,9 @@ spec:
     params:
     - name: gateway
       value: '169.50.16.67'
+    workspaces:
+    - name: maven-cache
+      workspace: maven-cache
 
   - name: deploy-prod
     taskRef:
@@ -96,4 +100,7 @@ spec:
     params:
     - name: gateway
       value: '169.50.16.66'
+    workspaces:
+    - name: maven-cache
+      workspace: maven-cache
 ---
