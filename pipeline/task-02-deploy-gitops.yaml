@@ -40,7 +40,7 @@ spec:
       git config --global user.email "tekton@tekton.dev"
       git config --global user.name "Tekton Pipeline"
       git add .
-      git commit -m "[tekton] updating image to $(inputs.params.buildRevision)"
+      git commit --allow-empty -m "[tekton] updating image to $(inputs.params.buildRevision)"
       eval $(ssh-agent)
       ssh-add ~/.ssh/id_*
       git push origin $(inputs.resources.source.revision)
