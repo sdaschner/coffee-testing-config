@@ -29,7 +29,7 @@ spec:
       #!/usr/bin/env sh
       set -e
 
-      mkdir /workspace/source/coffee-shop/target/lib/
+      mkdir -p /workspace/source/coffee-shop/target/lib/
       touch /workspace/source/coffee-shop/target/coffee-shop-runner.jar /workspace/source/coffee-shop/target/lib/foo.jar
 #  - name: build-sources
 #    image: gcr.io/cloud-builders/mvn
