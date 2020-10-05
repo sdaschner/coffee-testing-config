@@ -17,6 +17,9 @@ spec:
     envFrom:
     - secretRef:
         name: argocd-env-secret
+    env:
+    - name: ARGOCD_SERVER
+      value: argocd-server.argocd
   steps:
   - name: update-yaml
     image: alpine/git:v2.26.2
