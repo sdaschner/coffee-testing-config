@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: deploy-systemtest
+  name: deploy
 spec:
   params:
   - name: buildRevision
@@ -43,7 +43,7 @@ spec:
       git config --global user.email "tekton@tekton.dev"
       git config --global user.name "Tekton Pipeline"
       git add .
-      git commit --allow-empty -m "[tekton] updating image to $(inputs.params.buildRevision)"
+      git commit --allow-empty -m "[tekton] updating $(inputs.params.environment) image to $(inputs.params.buildRevision)"
       eval $(ssh-agent)
       ssh-add ~/.ssh/id_*
       git push origin $(inputs.resources.source.revision)
@@ -57,19 +57,3 @@ spec:
       argocd app sync $(inputs.params.argo-app-name) --insecure
       argocd app wait $(inputs.params.argo-app-name) --health --insecure
 ---
-#
-#  steps:
-#  - name: login
-#    image: argoproj/argocd:$(params.argocd-version)
-#    script: |
-#      if [ -z $ARGOCD_AUTH_TOKEN ]; then
-#        yes | argocd login $ARGOCD_SERVER --username=$ARGOCD_USERNAME --password=$ARGOCD_PASSWORD;
-#      fi
-#  - name: sync
-#    image: argoproj/argocd:$(params.argocd-version)
-#    script: |
-#      argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags)
-#  - name: wait
-#    image: argoproj/argocd:$(params.argocd-version)
-#    script: |
-#      argocd app wait $(params.application-name) --health $(params.flags)

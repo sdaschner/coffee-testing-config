@@ -15,6 +15,7 @@ spec:
     type: git
   workspaces:
   - name: maven-cache
+
   tasks:
   - name: build-java-app
     taskRef:
@@ -32,9 +33,10 @@ spec:
     workspaces:
     - name: maven-cache
       workspace: maven-cache
+
   - name: deploy-systemtest
     taskRef:
-      name: deploy-systemtest
+      name: deploy
     runAfter:
     - build-java-app
     resources:
@@ -50,4 +52,48 @@ spec:
       value: systemtest
     - name: argo-app-name
       value: coffee-testing-systemtest
+  - name: run-systemtest
+    taskRef:
+      name: run-systemtest
+    runAfter:
+    - deploy-systemtest
+    resources:
+      inputs:
+      - name: source
+        resource: appSource
+    params:
+    - name: gateway
+      value: '169.50.16.67'
+
+  - name: deploy-prod
+    taskRef:
+      name: deploy
+    runAfter:
+    - run-systemtest
+    resources:
+      inputs:
+      - name: source
+        resource: gitOpsSource
+      - name: image
+        resource: appImage
+    params:
+    - name: buildRevision
+      value: $(params.buildRevision)
+    - name: environment
+      value: production
+    - name: argo-app-name
+      value: coffee-testing-prod
+
+  - name: run-prod-smoketest
+    taskRef:
+      name: run-smoketest
+    runAfter:
+    - deploy-prod
+    resources:
+      inputs:
+      - name: source
+        resource: appSource
+    params:
+    - name: gateway
+      value: '169.50.16.66'
 ---
