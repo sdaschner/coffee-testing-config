@@ -20,17 +20,16 @@ spec:
     env:
     - name: ARGOCD_SERVER
       value: argocd-server.argocd
+
   steps:
   - name: update-yaml
     image: alpine/git:v2.26.2
-    #    image: mikefarah/yq:3.3.4
-    #    command: ['yq', 'write', '-i', 'coffee-shop.yaml', '-d', '1', 'spec.template.spec.containers[0].image', "$(inputs.resources.image.url):$(inputs.params.buildRevision)"]
     workingDir: "/workspace/source/$(inputs.params.environment)/"
     script: |
       #!/usr/bin/env sh
       set -e
 
-      echo "updating coffee-shop image to $(inputs.resources.image.url):$(inputs.params.buildRevision)"
+      echo "updating $(inputs.params.environment) image to $(inputs.resources.image.url):$(inputs.params.buildRevision)"
       sed -i "s#$(inputs.resources.image.url):[a-zA-Z0-9]\\+#$(inputs.resources.image.url):$(inputs.params.buildRevision)#" coffee-shop.yaml
 
   - name: commit-push-changes-gitops

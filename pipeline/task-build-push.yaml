@@ -22,27 +22,22 @@ spec:
       requests:
         cpu: '1'
         memory: '2Gi'
-  steps:
-  - name: fake-build
-    image: fedora
-    script: |
-      #!/usr/bin/env sh
-      set -e
 
-      mkdir -p /workspace/source/coffee-shop/target/lib/
-      touch /workspace/source/coffee-shop/target/coffee-shop-runner.jar /workspace/source/coffee-shop/target/lib/foo.jar
-#  - name: build-sources
-#    image: gcr.io/cloud-builders/mvn
-#    workingDir: "/workspace/source/coffee-shop/"
-#    command:
-#    - /usr/bin/mvn
-#    args:
-#    - -Dmaven.repo.local=$(workspaces.maven-cache.path)
-#    - clean
-#    - package
+  steps:
+  - name: build-sources
+    image: gcr.io/cloud-builders/mvn
+    workingDir: "/workspace/source/coffee-shop/"
+    command:
+    - /usr/bin/mvn
+    args:
+    - -Dmaven.repo.local=$(workspaces.maven-cache.path)
+    - clean
+    - package
+
   - name: ls-build-target
     image: fedora
     command: ['ls', '-ahl', '/workspace/source/coffee-shop/target']
+
   - name: build-image
     image: quay.io/buildah/stable
     workingDir: "/workspace/source/coffee-shop/"
@@ -55,6 +50,7 @@ spec:
       allowPrivilegeEscalation: true
       runAsUser: 0
       privileged: true
+
   - name: build-push
     image: quay.io/buildah/stable
     command: ["buildah", "push", "--tls-verify=false", "$(inputs.params.destinationImage):$(inputs.params.buildRevision)", "docker://$(inputs.params.destinationImage):$(inputs.params.buildRevision)"]
