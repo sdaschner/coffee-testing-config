@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: docker.sebastian-daschner.com/coffee-testing:129
+        image: docker.sebastian-daschner.com/coffee-testing:130
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
