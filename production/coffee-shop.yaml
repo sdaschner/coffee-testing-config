@@ -29,6 +29,8 @@ spec:
       - name: coffee-shop
         image: docker.sebastian-daschner.com/coffee-testing:128
         imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
         readinessProbe:
           httpGet:
             path: /
