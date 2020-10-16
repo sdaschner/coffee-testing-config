@@ -64,7 +64,7 @@ spec:
         resource: appSource
     params:
     - name: gateway
-      value: '169.50.16.67'
+      value: '161.156.128.162'
     workspaces:
     - name: maven-cache
       workspace: maven-cache
@@ -99,7 +99,7 @@ spec:
         resource: appSource
     params:
     - name: gateway
-      value: '169.50.16.66'
+      value: '161.156.128.162'
     workspaces:
     - name: maven-cache
       workspace: maven-cache
