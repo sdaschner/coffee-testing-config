@@ -24,6 +24,9 @@ spec:
     - "-Dcoffee-shop.test.port=80"
     - "-Dbarista.test.host=$(inputs.params.gateway)"
     - "-Dbarista.test.port=80"
+    env:
+    - name: MAVEN_OPTS
+      value: "-Xms2G -Xmx4G"
     resources:
       requests:
         cpu: '2'

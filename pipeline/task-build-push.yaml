@@ -28,6 +28,9 @@ spec:
     - -Dmaven.repo.local=$(workspaces.maven-cache.path)
     - clean
     - package
+    env:
+    - name: MAVEN_OPTS
+      value: "-Xms2G -Xmx4G"
     resources:
       requests:
         cpu: '2'
