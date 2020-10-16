@@ -19,8 +19,9 @@ spec:
       name: gitops-git-source
   workspaces:
   - name: maven-cache
-    persistentVolumeClaim:
-      claimName: maven-cache-pvc
+    emptyDir: {}
+#    persistentVolumeClaim:
+#      claimName: maven-cache-pvc
   params:
   - name: buildRevision
     value: '1'
