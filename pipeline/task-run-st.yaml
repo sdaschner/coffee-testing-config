@@ -24,4 +24,8 @@ spec:
     - "-Dcoffee-shop.test.port=80"
     - "-Dbarista.test.host=$(inputs.params.gateway)"
     - "-Dbarista.test.port=80"
+    resources:
+      requests:
+        cpu: '2'
+        memory: '4Gi'
 ---

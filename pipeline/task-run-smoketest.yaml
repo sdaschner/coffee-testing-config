@@ -24,4 +24,8 @@ spec:
     - failsafe:verify
     - "-Dcoffee-shop.test.host=$(inputs.params.gateway)"
     - "-Dcoffee-shop.test.port=80"
+    resources:
+      requests:
+        cpu: '2'
+        memory: '4Gi'
 ---
