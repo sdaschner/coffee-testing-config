@@ -20,7 +20,8 @@ spec:
 
   steps:
   - name: build-sources
-    image: gcr.io/cloud-builders/mvn
+#    image: gcr.io/cloud-builders/mvn
+    image: adoptopenjdk/maven-openjdk13-openj9
     workingDir: "/workspace/source/coffee-shop/"
     command:
     - /usr/bin/mvn
