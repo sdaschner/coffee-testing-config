@@ -17,11 +17,6 @@ spec:
       type: image
   workspaces:
   - name: maven-cache
-#  stepTemplate:
-#    resources:
-#      requests:
-#        cpu: '1'
-#        memory: '2Gi'
 
   steps:
   - name: build-sources
@@ -35,8 +30,8 @@ spec:
     - package
     resources:
       requests:
-        cpu: '1'
-        memory: '2Gi'
+        cpu: '2'
+        memory: '4Gi'
 
   - name: ls-build-target
     image: fedora
