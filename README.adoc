@@ -1,7 +1,1 @@
-== Tekton
-
-Create secret in CLI:
-
-----
-kubectl create secret -n tekton-pipelines generic argocd-env-secret '--from-literal=ARGOCD_AUTH_TOKEN=<token>'
-----
+== Tekton with ArgoCD

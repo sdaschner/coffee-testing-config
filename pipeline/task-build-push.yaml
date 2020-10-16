@@ -17,11 +17,11 @@ spec:
       type: image
   workspaces:
   - name: maven-cache
-  stepTemplate:
-    resources:
-      requests:
-        cpu: '1'
-        memory: '2Gi'
+#  stepTemplate:
+#    resources:
+#      requests:
+#        cpu: '1'
+#        memory: '2Gi'
 
   steps:
   - name: build-sources
@@ -33,6 +33,10 @@ spec:
     - -Dmaven.repo.local=$(workspaces.maven-cache.path)
     - clean
     - package
+    resources:
+      requests:
+        cpu: '1'
+        memory: '2Gi'
 
   - name: ls-build-target
     image: fedora

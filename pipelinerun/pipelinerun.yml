@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: pipelinerun
+  name: pipelinerun
+spec:
+  pipelineRef:
+    name: build-deploy
+  serviceAccountName: pipeline
+  resources:
+  - name: appImage
+    resourceRef:
+      name: coffee-testing-image
+  - name: appSource
+    resourceRef:
+      name: coffee-testing-git-source
+  - name: gitOpsSource
+    resourceRef:
+      name: gitops-git-source
+  workspaces:
+  - name: maven-cache
+    persistentVolumeClaim:
+      claimName: maven-cache-pvc
+  params:
+  - name: buildRevision
+    value: '1'
+---
