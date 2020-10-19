@@ -11,7 +11,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+    - "coffee.daschner.dev"
 ---
 
 apiVersion: networking.istio.io/v1alpha3
@@ -20,7 +20,7 @@ metadata:
   name: coffee-gateway
 spec:
   hosts:
-  - "*"
+  - "coffee.daschner.dev"
   gateways:
   - coffee-gateway
   http:

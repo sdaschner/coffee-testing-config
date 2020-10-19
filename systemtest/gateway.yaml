@@ -1,17 +1,17 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: coffee-gateway-alt
+  name: coffee-gateway
 spec:
   selector:
-    istio: ingressgateway-alt
+    istio: ingressgateway
   servers:
   - port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+    - "test.coffee.daschner.dev"
 ---
 
 apiVersion: networking.istio.io/v1alpha3
@@ -20,9 +20,9 @@ metadata:
   name: coffee-gateway
 spec:
   hosts:
-  - "*"
+  - "test.coffee.daschner.dev"
   gateways:
-  - coffee-gateway-alt
+  - coffee-gateway
   http:
   - match:
     - uri:
