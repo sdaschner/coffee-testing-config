@@ -28,7 +28,9 @@ spec:
       echo contents of maven cache $(workspaces.maven-cache.path)
       ls -ahl $(workspaces.maven-cache.path)
 
+      date
       cp -r $(workspaces.maven-cache.path) /tmp/maven-cache/
+      date
 
       echo contents of tmp cache /tmp/maven-cache/maven-cache/
       ls -ahl /tmp/maven-cache/maven-cache/
@@ -89,7 +91,9 @@ spec:
       echo contents of tmp cache /tmp/maven-cache/maven-cache/
       ls -ahl /tmp/maven-cache/maven-cache/
 
+      date
       cp -r /tmp/maven-cache/maven-cache/* $(workspaces.maven-cache.path)
+      date
 
       echo contents of maven cache $(workspaces.maven-cache.path)
       ls -ahl $(workspaces.maven-cache.path)
