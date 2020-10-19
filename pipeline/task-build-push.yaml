@@ -18,34 +18,13 @@ spec:
   workspaces:
   - name: maven-cache
 
-  steps:
-  - name: copy-maven-tmp
-    image: instrumentisto/rsync-ssh:latest
-    script: |
-      #!/usr/bin/env sh
-      set -e
-
-      echo contents of maven cache $(workspaces.maven-cache.path)
-      ls -ahl $(workspaces.maven-cache.path)
-
-      date
-      rsync -rz $(workspaces.maven-cache.path)/* /tmp/maven-cache/
-      date
-
-      echo contents of tmp cache /tmp/maven-cache/
-      ls -ahl /tmp/maven-cache/
-    volumeMounts:
-    - name: maven-tmp
-      mountPath: /tmp/maven-cache/
-
   - name: build-sources
     image: gcr.io/cloud-builders/mvn
     workingDir: "/workspace/source/coffee-shop/"
     command:
     - /usr/bin/mvn
     args:
-#    - -Dmaven.repo.local=$(workspaces.maven-cache.path)
-    - -Dmaven.repo.local=/tmp/maven-cache/
+    - -Dmaven.repo.local=$(workspaces.maven-cache.path)
     - clean
     - package
     env:
@@ -55,9 +34,6 @@ spec:
       requests:
         cpu: '2'
         memory: '4Gi'
-    volumeMounts:
-    - name: maven-tmp
-      mountPath: /tmp/maven-cache/
 
   - name: build-image
     image: quay.io/buildah/stable
@@ -82,28 +58,7 @@ spec:
       runAsUser: 0
       privileged: true
 
-  - name: write-maven-cache
-    image: instrumentisto/rsync-ssh:latest
-    script: |
-      #!/usr/bin/env sh
-      set -e
-
-      echo contents of tmp cache /tmp/maven-cache/
-      ls -ahl /tmp/maven-cache/
-
-      date
-      rsync -rz /tmp/maven-cache/* $(workspaces.maven-cache.path)
-      date
-
-      echo contents of maven cache $(workspaces.maven-cache.path)
-      ls -ahl $(workspaces.maven-cache.path)
-    volumeMounts:
-    - name: maven-tmp
-      mountPath: /tmp/maven-cache/
-
   volumes:
   - name: varlibc
-    emptyDir: {}
-  - name: maven-tmp
     emptyDir: {}
 ---
