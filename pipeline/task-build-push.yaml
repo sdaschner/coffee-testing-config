@@ -20,7 +20,7 @@ spec:
 
   steps:
   - name: copy-maven-tmp
-    image: fedora
+    image: instrumentisto/rsync-ssh:latest
     script: |
       #!/usr/bin/env sh
       set -e
@@ -29,11 +29,11 @@ spec:
       ls -ahl $(workspaces.maven-cache.path)
 
       date
-      cp -r $(workspaces.maven-cache.path) /tmp/maven-cache/
+      rsync -rzv $(workspaces.maven-cache.path)/* /tmp/maven-cache/
       date
 
-      echo contents of tmp cache /tmp/maven-cache/maven-cache/
-      ls -ahl /tmp/maven-cache/maven-cache/
+      echo contents of tmp cache /tmp/maven-cache/
+      ls -ahl /tmp/maven-cache/
     volumeMounts:
     - name: maven-tmp
       mountPath: /tmp/maven-cache/
@@ -45,7 +45,7 @@ spec:
     - /usr/bin/mvn
     args:
 #    - -Dmaven.repo.local=$(workspaces.maven-cache.path)
-    - -Dmaven.repo.local=/tmp/maven-cache/maven-cache/
+    - -Dmaven.repo.local=/tmp/maven-cache/
     - clean
     - package
     env:
@@ -83,16 +83,16 @@ spec:
       privileged: true
 
   - name: write-maven-cache
-    image: fedora
+    image: instrumentisto/rsync-ssh:latest
     script: |
       #!/usr/bin/env sh
       set -e
 
-      echo contents of tmp cache /tmp/maven-cache/maven-cache/
-      ls -ahl /tmp/maven-cache/maven-cache/
+      echo contents of tmp cache /tmp/maven-cache/
+      ls -ahl /tmp/maven-cache/
 
       date
-      cp -r /tmp/maven-cache/maven-cache/* $(workspaces.maven-cache.path)
+      rsync -rzv /tmp/maven-cache/* $(workspaces.maven-cache.path)
       date
 
       echo contents of maven cache $(workspaces.maven-cache.path)
