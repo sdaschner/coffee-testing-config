@@ -64,7 +64,7 @@ spec:
         resource: appSource
     params:
     - name: gateway
-      value: '161.156.128.162'
+      value: 'test.coffee.daschner.dev'
     workspaces:
     - name: maven-cache
       workspace: maven-cache
@@ -99,7 +99,7 @@ spec:
         resource: appSource
     params:
     - name: gateway
-      value: '161.156.128.162'
+      value: 'coffee.daschner.dev'
     workspaces:
     - name: maven-cache
       workspace: maven-cache
