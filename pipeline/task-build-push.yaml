@@ -19,13 +19,31 @@ spec:
   - name: maven-cache
 
   steps:
+  - name: copy-maven-tmp
+    image: fedora
+    script: |
+      #!/usr/bin/env sh
+      set -e
+
+      echo contents of maven cache
+      ls -ahl $(workspaces.maven-cache.path)
+
+      cp -r $(workspaces.maven-cache.path) /tmp/maven-cache/
+
+      echo contents of tmp cache
+      ls -ahl /tmp/maven-cache/
+    volumeMounts:
+    - name: maven-tmp
+      mountPath: /tmp/maven-cache/
+
   - name: build-sources
     image: gcr.io/cloud-builders/mvn
     workingDir: "/workspace/source/coffee-shop/"
     command:
     - /usr/bin/mvn
     args:
-    - -Dmaven.repo.local=$(workspaces.maven-cache.path)
+#    - -Dmaven.repo.local=$(workspaces.maven-cache.path)
+    - -Dmaven.repo.local=/tmp/maven-cache/
     - clean
     - package
     env:
@@ -35,10 +53,9 @@ spec:
       requests:
         cpu: '2'
         memory: '4Gi'
-
-  - name: ls-build-target
-    image: fedora
-    command: ['ls', '-ahl', '/workspace/source/coffee-shop/target']
+    volumeMounts:
+    - name: maven-tmp
+      mountPath: /tmp/maven-cache/
 
   - name: build-image
     image: quay.io/buildah/stable
@@ -47,7 +64,6 @@ spec:
     volumeMounts:
     - name: varlibc
       mountPath: /var/lib/containers
-    # container image build needs to run as root
     securityContext:
       allowPrivilegeEscalation: true
       runAsUser: 0
@@ -59,12 +75,32 @@ spec:
     volumeMounts:
     - name: varlibc
       mountPath: /var/lib/containers
-    # container image build needs to run as root
     securityContext:
       allowPrivilegeEscalation: true
       runAsUser: 0
       privileged: true
+
+  - name: write-maven-cache
+    image: fedora
+    script: |
+      #!/usr/bin/env sh
+      set -e
+
+      echo contents of tmp cache
+      ls -ahl /tmp/maven-cache/
+
+
+      cp -r /tmp/maven-cache/* $(workspaces.maven-cache.path)
+
+      echo contents of maven cache
+      ls -ahl $(workspaces.maven-cache.path)
+    volumeMounts:
+    - name: maven-tmp
+      mountPath: /tmp/maven-cache/
+
   volumes:
   - name: varlibc
+    emptyDir: {}
+  - name: maven-tmp
     emptyDir: {}
 ---
