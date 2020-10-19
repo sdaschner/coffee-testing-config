@@ -13,8 +13,6 @@ spec:
     type: image
   - name: gitOpsSource
     type: git
-  workspaces:
-  - name: maven-cache
 
   tasks:
   - name: build-java-app
@@ -30,9 +28,6 @@ spec:
     params:
     - name: buildRevision
       value: $(params.buildRevision)
-    workspaces:
-    - name: maven-cache
-      workspace: maven-cache
 
   - name: deploy-systemtest
     taskRef:
@@ -65,9 +60,6 @@ spec:
     params:
     - name: gateway
       value: 'test.coffee.daschner.dev'
-    workspaces:
-    - name: maven-cache
-      workspace: maven-cache
 
   - name: deploy-prod
     taskRef:
@@ -100,7 +92,4 @@ spec:
     params:
     - name: gateway
       value: 'coffee.daschner.dev'
-    workspaces:
-    - name: maven-cache
-      workspace: maven-cache
 ---
