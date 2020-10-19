@@ -18,6 +18,7 @@ spec:
   workspaces:
   - name: maven-cache
 
+  steps:
   - name: build-sources
     image: gcr.io/cloud-builders/mvn
     workingDir: "/workspace/source/coffee-shop/"
