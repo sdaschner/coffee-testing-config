@@ -30,8 +30,8 @@ spec:
 
       cp -r $(workspaces.maven-cache.path) /tmp/maven-cache/
 
-      echo contents of tmp cache /tmp/maven-cache/
-      ls -ahl /tmp/maven-cache/
+      echo contents of tmp cache /tmp/maven-cache/maven-cache/
+      ls -ahl /tmp/maven-cache/maven-cache/
     volumeMounts:
     - name: maven-tmp
       mountPath: /tmp/maven-cache/
@@ -43,7 +43,7 @@ spec:
     - /usr/bin/mvn
     args:
 #    - -Dmaven.repo.local=$(workspaces.maven-cache.path)
-    - -Dmaven.repo.local=/tmp/maven-cache/
+    - -Dmaven.repo.local=/tmp/maven-cache/maven-cache/
     - clean
     - package
     env:
@@ -86,8 +86,8 @@ spec:
       #!/usr/bin/env sh
       set -e
 
-      echo contents of tmp cache /tmp/maven-cache/
-      ls -ahl /tmp/maven-cache/
+      echo contents of tmp cache /tmp/maven-cache/maven-cache/
+      ls -ahl /tmp/maven-cache/maven-cache/
 
       cp -r /tmp/maven-cache/maven-cache/* $(workspaces.maven-cache.path)
 
