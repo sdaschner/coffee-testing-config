@@ -20,7 +20,7 @@ spec:
 
   steps:
   - name: build-sources
-    image: gcr.io/cloud-builders/mvn
+    image: sdaschner/maven-jdk14:quarkus-deps-1.5.1-b1
     workingDir: "/workspace/source/coffee-shop/"
     command:
     - /usr/bin/mvn
