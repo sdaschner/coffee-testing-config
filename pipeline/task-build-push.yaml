@@ -25,12 +25,12 @@ spec:
       #!/usr/bin/env sh
       set -e
 
-      echo contents of maven cache
+      echo contents of maven cache $(workspaces.maven-cache.path)
       ls -ahl $(workspaces.maven-cache.path)
 
       cp -r $(workspaces.maven-cache.path) /tmp/maven-cache/
 
-      echo contents of tmp cache
+      echo contents of tmp cache /tmp/maven-cache/
       ls -ahl /tmp/maven-cache/
     volumeMounts:
     - name: maven-tmp
@@ -86,13 +86,12 @@ spec:
       #!/usr/bin/env sh
       set -e
 
-      echo contents of tmp cache
+      echo contents of tmp cache /tmp/maven-cache/
       ls -ahl /tmp/maven-cache/
 
+      cp -r /tmp/maven-cache/maven-cache/* $(workspaces.maven-cache.path)
 
-      cp -r /tmp/maven-cache/* $(workspaces.maven-cache.path)
-
-      echo contents of maven cache
+      echo contents of maven cache $(workspaces.maven-cache.path)
       ls -ahl $(workspaces.maven-cache.path)
     volumeMounts:
     - name: maven-tmp
