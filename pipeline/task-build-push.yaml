@@ -18,7 +18,7 @@ spec:
 
   steps:
   - name: build-sources
-    image: sdaschner/maven-jdk14:quarkus-deps-1.5.1-b4
+    image: sdaschner/maven-jdk14:quarkus-deps-1.5.1-b5
     workingDir: "/workspace/source/coffee-shop/"
     command:
     - /usr/bin/mvn
