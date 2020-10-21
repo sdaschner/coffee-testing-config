@@ -1,8 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: pipelinerun
-  name: pipelinerun
+  generateName: build-deploy-
 spec:
   pipelineRef:
     name: build-deploy
@@ -19,5 +18,5 @@ spec:
       name: gitops-git-source
   params:
   - name: buildRevision
-    value: '1'
+    value: '2'
 ---
