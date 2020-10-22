@@ -1,27 +1,12 @@
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
-  name: coffee-testing-git-source
-spec:
-  type: git
-  params: 
-  - name: url
-    value: git@github.com:sdaschner/coffee-testing.git
-  - name: revision
-    value: tekton-testing
-  - name: refspec
-    value: refs/heads/tekton-testing:refs/heads/tekton-testing
----
-
-apiVersion: tekton.dev/v1alpha1
-kind: PipelineResource
-metadata:
   name: gitops-git-source
 spec:
   type: git
   params:
   - name: url
-    value: git@github.com:sdaschner/argocd-testing.git
+    value: git@github.com:sdaschner/coffee-testing-config.git
   - name: revision
     value: master
   - name: refspec

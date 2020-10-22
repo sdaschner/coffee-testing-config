@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     path: production
-    repoURL: https://github.com/sdaschner/argocd-testing.git
+    repoURL: https://github.com/sdaschner/coffee-testing-config.git
     targetRevision: HEAD
   syncPolicy:
     automated:

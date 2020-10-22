@@ -10,13 +10,18 @@ spec:
   - name: appImage
     resourceRef:
       name: coffee-testing-image
-  - name: appSource
-    resourceRef:
-      name: coffee-testing-git-source
   - name: gitOpsSource
     resourceRef:
       name: gitops-git-source
+  - name: appSource
+    resourceSpec:
+      type: git
+      params:
+      - name: revision
+        value: $(params.buildRevision)
+      - name: url
+        value: git@github.com:sdaschner/coffee-testing.git
   params:
   - name: buildRevision
-    value: '2'
+    value: 'd9c7ccb0713da882d8373169e2a1d705f5959386'
 ---
