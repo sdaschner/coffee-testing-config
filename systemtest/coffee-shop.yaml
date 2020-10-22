@@ -25,11 +25,11 @@ spec:
         app: coffee-shop
         version: v1
       annotations:
-        revision: "1"
+        revision: "d9c7ccb0713da882d8373169e2a1d705f5959386"
     spec:
       containers:
       - name: coffee-shop
-        image: docker.sebastian-daschner.com/coffee-testing:1
+        image: docker.sebastian-daschner.com/coffee-testing:d9c7ccb0713da882d8373169e2a1d705f5959386
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
