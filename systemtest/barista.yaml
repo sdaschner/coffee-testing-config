@@ -25,7 +25,7 @@ spec:
         app: barista
         version: v1
       annotations:
-        revision: "3"
+        revision: "1"
     spec:
       containers:
       - name: barista
