@@ -5,6 +5,7 @@ metadata:
 spec:
   params:
   - name: gateway
+  - name: buildRevision
   resources:
     inputs:
     - name: source
