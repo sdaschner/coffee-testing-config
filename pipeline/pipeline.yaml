@@ -94,4 +94,6 @@ spec:
     params:
     - name: gateway
       value: 'coffee.daschner.dev'
+    - name: buildRevision
+      value: $(params.buildRevision)
 ---
