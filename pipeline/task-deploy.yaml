@@ -33,7 +33,7 @@ spec:
       sed -i "s#$(inputs.resources.image.url):[a-zA-Z0-9]\\+#$(inputs.resources.image.url):$(inputs.params.buildRevision)#" coffee-shop.yaml
 
       echo "updating all pods in $(inputs.params.environment) to revision $(inputs.params.buildRevision)"
-      sed -i "s#revision: \"[a-zA-Z0-9]\"\\+#revision: \"$(inputs.params.buildRevision)\"#" coffee-shop.yaml barista.yaml
+      sed -i "s#revision: \"[a-zA-Z0-9]\\+\"#revision: \"$(inputs.params.buildRevision)\"#" coffee-shop.yaml barista.yaml
 
   - name: commit-push-changes-gitops
     image: alpine/git:v2.26.2
