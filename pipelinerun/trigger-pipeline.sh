@@ -2,7 +2,6 @@
 set -euo pipefail
 cd ${0%/*}
 
-#kubectl delete pipelineruns.tekton.dev -n tekton-pipelines pipelinerun --ignore-not-found
 kubectl create -f pipelinerun.yml -n tekton-pipelines
 
 sleep 1

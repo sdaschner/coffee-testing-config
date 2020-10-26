@@ -23,5 +23,5 @@ spec:
         value: git@github.com:sdaschner/coffee-testing.git
   params:
   - name: buildRevision
-    value: 'd9c7ccb0713da882d8373169e2a1d705f5959386'
+    value: '56512b4a01fc91026b0d42ba2febb1b61c291903'
 ---
