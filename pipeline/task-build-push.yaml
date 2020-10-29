@@ -51,7 +51,7 @@ spec:
 
   - name: build-image
     image: quay.io/buildah/stable
-    workingDir: "/workspace/app-source/coffee-shop/"
+    workingDir: "/app-source/coffee-shop/"
     command: ['buildah', 'bud', '--tls-verify=false', '--layers', '-f', 'Dockerfile', '-t', '$(params.appImage):$(params.buildRevision)', '.']
     volumeMounts:
     - name: varlibc

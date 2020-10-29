@@ -25,6 +25,9 @@ spec:
       git remote add origin $(params.appGitUrl)
       git fetch --depth 1 origin $(params.buildRevision)
       git checkout FETCH_HEAD
+    volumeMounts:
+    - name: app-source
+      mountPath: /app-source
 
   - name: run-mvn-st
     image: sdaschner/maven-jdk14:quarkus-deps-1.5.1-b5
@@ -44,4 +47,11 @@ spec:
       requests:
         cpu: '2'
         memory: '4Gi'
+    volumeMounts:
+    - name: app-source
+      mountPath: /app-source
+
+  volumes:
+  - name: app-source
+    emptyDir: {}
 ---

@@ -22,7 +22,7 @@ spec:
   steps:
   - name: git-checkout
     image: alpine/git:v2.26.2
-    workingDir: "/workspace/config-source/"
+    workingDir: "/config-source/"
     script: |
       #!/usr/bin/env sh
       set -e
@@ -36,7 +36,7 @@ spec:
 
   - name: update-yaml
     image: alpine/git:v2.26.2
-    workingDir: "/workspace/config-source/$(inputs.params.environment)/"
+    workingDir: "/config-source/$(inputs.params.environment)/"
     script: |
       #!/usr/bin/env sh
       set -e
@@ -52,7 +52,7 @@ spec:
 
   - name: commit-push-changes-gitops
     image: alpine/git:v2.26.2
-    workingDir: "/workspace/config-source/"
+    workingDir: "/config-source/"
     script: |
       #!/usr/bin/env sh
       set -e
