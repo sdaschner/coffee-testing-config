@@ -20,6 +20,8 @@ spec:
 
       eval $(ssh-agent)
       ssh-add ~/.ssh/id_*
+      git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=accept-new'
+
       git init
       git remote add origin $(params.appGitUrl)
       git fetch --depth 1 origin $(params.buildRevision)
