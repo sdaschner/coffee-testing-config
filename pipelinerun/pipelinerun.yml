@@ -6,22 +6,18 @@ spec:
   pipelineRef:
     name: build-deploy
   serviceAccountName: pipeline
-  resources:
-  - name: appImage
-    resourceRef:
-      name: coffee-testing-image
-  - name: gitOpsSource
-    resourceRef:
-      name: gitops-git-source
-  - name: appSource
-    resourceSpec:
-      type: git
-      params:
-      - name: revision
-        value: $(params.buildRevision)
-      - name: url
-        value: git@github.com:sdaschner/coffee-testing.git
   params:
   - name: buildRevision
     value: '56512b4a01fc91026b0d42ba2febb1b61c291903'
+  - name: appGitUrl
+    value: 'git@github.com:sdaschner/coffee-testing.git'
+  - name: configGitUrl
+    value: 'git@github.com:sdaschner/coffee-testing-config.git'
+  - name: appImage
+    value: 'docker.sebastian-daschner.com/coffee-testing'
+  workspaces:
+  - name: app-source
+    emptyDir: {}
+  - name: config-source
+    emptyDir: {}
 ---

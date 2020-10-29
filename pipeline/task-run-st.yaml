@@ -6,14 +6,27 @@ spec:
   params:
   - name: gateway
   - name: buildRevision
-  resources:
-    inputs:
-    - name: source
-      type: git
+  - name: appGitUrl
+  workspaces:
+  - name: app-source
   steps:
+  - name: git-checkout
+    image: alpine/git:v2.26.2
+    workingDir: "/workspace/app-source/"
+    script: |
+      #!/usr/bin/env sh
+      set -e
+
+      eval $(ssh-agent)
+      ssh-add ~/.ssh/id_*
+      git init
+      git remote add origin $(params.appGitUrl)
+      git fetch --depth 1 origin $(params.buildRevision)
+      git checkout FETCH_HEAD
+
   - name: run-mvn-st
     image: sdaschner/maven-jdk14:quarkus-deps-1.5.1-b5
-    workingDir: "/workspace/source/coffee-shop-st"
+    workingDir: "/workspace/app-source/coffee-shop-st"
     command:
     - /usr/bin/mvn
     args:
