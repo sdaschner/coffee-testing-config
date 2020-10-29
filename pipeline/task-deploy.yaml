@@ -20,14 +20,6 @@ spec:
       value: argocd-server.argocd
 
   steps:
-  - name: ls-workspace
-    image: fedora
-    workingDir: "/workspace/config-source/"
-    script: |
-      #!/usr/bin/env sh
-      pwd
-      ls -ahl .
-
   - name: git-checkout
     image: alpine/git:v2.26.2
     workingDir: "/workspace/config-source/"
@@ -38,6 +30,9 @@ spec:
       eval $(ssh-agent)
       ssh-add ~/.ssh/id_*
       git clone $(params.configGitUrl) --branch master .
+    volumeMounts:
+    - name: config-source
+      mountPath: /config-source
 
   - name: update-yaml
     image: alpine/git:v2.26.2
@@ -51,6 +46,9 @@ spec:
 
       echo "updating all pods in $(inputs.params.environment) to revision $(inputs.params.buildRevision)"
       sed -i "s#revision: \"[a-zA-Z0-9]\\+\"#revision: \"$(inputs.params.buildRevision)\"#" coffee-shop.yaml barista.yaml
+    volumeMounts:
+    - name: config-source
+      mountPath: /config-source
 
   - name: commit-push-changes-gitops
     image: alpine/git:v2.26.2
@@ -66,6 +64,9 @@ spec:
       eval $(ssh-agent)
       ssh-add ~/.ssh/id_*
       git push origin master
+    volumeMounts:
+    - name: config-source
+      mountPath: /config-source
 
   - name: wait-for-argocd-rollout
     image: argoproj/argocd:v1.7.7
@@ -75,4 +76,8 @@ spec:
 
       argocd app sync $(inputs.params.argo-app-name) --insecure
       argocd app wait $(inputs.params.argo-app-name) --sync --health --operation --insecure
+
+  volumes:
+  - name: config-source
+    emptyDir: {}
 ---

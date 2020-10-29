@@ -13,7 +13,7 @@ spec:
   steps:
   - name: git-checkout
     image: alpine/git:v2.26.2
-    workingDir: "/workspace/app-source/"
+    workingDir: "/app-source/"
     script: |
       #!/usr/bin/env sh
       set -e
@@ -26,10 +26,13 @@ spec:
       git remote add origin $(params.appGitUrl)
       git fetch --depth 1 origin $(params.buildRevision)
       git checkout FETCH_HEAD
+    volumeMounts:
+    - name: app-source
+      mountPath: /app-source
 
   - name: build-sources
     image: sdaschner/maven-jdk14:quarkus-deps-1.5.1-b5
-    workingDir: "/workspace/app-source/coffee-shop/"
+    workingDir: "/app-source/coffee-shop/"
     command:
     - /usr/bin/mvn
     args:
@@ -42,6 +45,9 @@ spec:
       requests:
         cpu: '2'
         memory: '4Gi'
+    volumeMounts:
+    - name: app-source
+      mountPath: /app-source
 
   - name: build-image
     image: quay.io/buildah/stable
@@ -50,6 +56,8 @@ spec:
     volumeMounts:
     - name: varlibc
       mountPath: /var/lib/containers
+    - name: app-source
+      mountPath: /app-source
     securityContext:
       allowPrivilegeEscalation: true
       runAsUser: 0
@@ -68,5 +76,7 @@ spec:
 
   volumes:
   - name: varlibc
+    emptyDir: {}
+  - name: app-source
     emptyDir: {}
 ---
