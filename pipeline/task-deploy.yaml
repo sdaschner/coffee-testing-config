@@ -20,6 +20,14 @@ spec:
       value: argocd-server.argocd
 
   steps:
+  - name: ls-workspace
+    image: fedora
+    workingDir: "/workspace/config-source/"
+    script: |
+      #!/usr/bin/env sh
+      pwd
+      ls -ahl .
+
   - name: git-checkout
     image: alpine/git:v2.26.2
     workingDir: "/workspace/config-source/"
