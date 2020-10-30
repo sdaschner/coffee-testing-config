@@ -22,20 +22,25 @@ spec:
   steps:
   - name: git-checkout
     image: alpine/git:v2.26.2
-    workingDir: "/workspace/config-source/"
+    workingDir: "$(workspaces.config-source.path)"
     script: |
       #!/usr/bin/env sh
       set -e
 
       eval $(ssh-agent)
       ssh-add ~/.ssh/id_*
+      git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=accept-new'
 
-      rm -rf ./* ./.[!.]* ./..?*
-      git clone $(params.configGitUrl) --branch master .
+      ls -ahl $(pwd)
+      pwd
+      rm -rf $(pwd)/* $(pwd)/.[!.]* $(pwd)/..?*
+      ls -ahl $(pwd)
+      git clone $(params.configGitUrl) --branch master $(pwd)
+      ls -ahl $(pwd)
 
   - name: update-yaml
     image: alpine/git:v2.26.2
-    workingDir: "/workspace/config-source/$(inputs.params.environment)/"
+    workingDir: "$(workspaces.config-source.path)/$(inputs.params.environment)"
     script: |
       #!/usr/bin/env sh
       set -e
@@ -48,7 +53,7 @@ spec:
 
   - name: commit-push-changes-gitops
     image: alpine/git:v2.26.2
-    workingDir: "/workspace/config-source/"
+    workingDir: "$(workspaces.config-source.path)/$(inputs.params.environment)"
     script: |
       #!/usr/bin/env sh
       set -e

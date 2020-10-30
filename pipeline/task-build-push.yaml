@@ -13,7 +13,7 @@ spec:
   steps:
   - name: git-checkout
     image: alpine/git:v2.26.2
-    workingDir: "/workspace/app-source/"
+    workingDir: "$(workspaces.app-source.path)"
     script: |
       #!/usr/bin/env sh
       set -e
@@ -22,15 +22,19 @@ spec:
       ssh-add ~/.ssh/id_*
       git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=accept-new'
 
-      rm -rf ./* ./.[!.]* ./..?*
+      ls -ahl $(pwd)
+      pwd
+      rm -rf $(pwd)/* $(pwd)/.[!.]* $(pwd)/..?*
+      ls -ahl $(pwd)
       git init
       git remote add origin $(params.appGitUrl)
       git fetch --depth 1 origin $(params.buildRevision)
       git checkout FETCH_HEAD
+      ls -ahl $(pwd)
 
   - name: build-sources
     image: sdaschner/maven-jdk14:quarkus-deps-1.5.1-b5
-    workingDir: "/workspace/app-source/coffee-shop/"
+    workingDir: "$(workspaces.app-source.path)/coffee-shop"
     command:
     - /usr/bin/mvn
     args:
@@ -46,7 +50,7 @@ spec:
 
   - name: build-image
     image: quay.io/buildah/stable
-    workingDir: "/workspace/app-source/coffee-shop/"
+    workingDir: "$(workspaces.app-source.path)/coffee-shop"
     command: ['buildah', 'bud', '--tls-verify=false', '--layers', '-f', 'Dockerfile', '-t', '$(params.appImage):$(params.buildRevision)', '.']
     volumeMounts:
     - name: varlibc
