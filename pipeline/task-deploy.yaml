@@ -31,12 +31,10 @@ spec:
       ssh-add ~/.ssh/id_*
       git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=accept-new'
 
-      ls -ahl $(pwd)
-      pwd
-      rm -rf $(pwd)/* $(pwd)/.[!.]* $(pwd)/..?*
-      ls -ahl $(pwd)
-      git clone $(params.configGitUrl) --branch master $(pwd)
-      ls -ahl $(pwd)
+      git init
+      git remote add origin $(params.configGitUrl)
+      git fetch --depth 1 origin master
+      git checkout master
 
   - name: update-yaml
     image: alpine/git:v2.26.2

@@ -22,15 +22,10 @@ spec:
       ssh-add ~/.ssh/id_*
       git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=accept-new'
 
-      ls -ahl $(pwd)
-      pwd
-      rm -rf $(pwd)/* $(pwd)/.[!.]* $(pwd)/..?*
-      ls -ahl $(pwd)
       git init
       git remote add origin $(params.appGitUrl)
       git fetch --depth 1 origin $(params.buildRevision)
       git checkout FETCH_HEAD
-      ls -ahl $(pwd)
 
   - name: build-sources
     image: sdaschner/maven-jdk14:quarkus-deps-1.5.1-b5
