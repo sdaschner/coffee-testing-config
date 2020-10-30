@@ -21,6 +21,7 @@ spec:
       ssh-add ~/.ssh/id_*
       git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=accept-new'
 
+      rm -rf ./* ./.[!.]* ./..?*
       git init
       git remote add origin $(params.appGitUrl)
       git fetch --depth 1 origin $(params.buildRevision)
