@@ -25,6 +25,11 @@ spec:
         value: 'git@github.com:sdaschner/coffee-testing-config.git'
       - name: appImage
         value: 'docker.sebastian-daschner.com/coffee-testing'
+      workspaces:
+      - name: app-source
+        emptyDir: {}
+      - name: config-source
+        emptyDir: {}
 ---
 
 apiVersion: triggers.tekton.dev/v1alpha1
