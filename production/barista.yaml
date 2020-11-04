@@ -25,7 +25,7 @@ spec:
         app: barista
         version: v1
       annotations:
-        revision: "34cea2b23676512aac66cddbd5b6bbde46063ae3"
+        revision: "4b150c886dbd6619c0c595a49785bedb80f5be61"
     spec:
       containers:
       - name: barista
